@@ -88,7 +88,6 @@ function App() {
       <main className="main-content">
         {globalError && (
           <div className="alert-callout callout-critical">
-            <span className="callout-icon">⚠️</span>
             <div>
               <strong>Connection Error:</strong> {globalError}
               <p className="subtext">
@@ -141,7 +140,7 @@ function App() {
       <footer className="shell-footer">
         <div className="footer-content">
           <p>
-            ⚠️ <strong>CareSync Prototype:</strong> Operational decision-support platform using clearly labeled simulated data.
+            <strong>CareSync Prototype:</strong> Operational decision-support platform using clearly labeled simulated data.
             AI-generated recommendations by Google Gemini are advisory logistical suggestions for staff review, not clinically validated,
             and do NOT substitute for clinical judgment, medical diagnosis, or patient care decisions.
           </p>

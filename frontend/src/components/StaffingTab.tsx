@@ -77,7 +77,7 @@ export const StaffingTab: React.FC<StaffingTabProps> = ({ metrics }) => {
 
               {Number(ratioDelta) > 0 && (
                 <div className="staff-ratio-warning">
-                  ⚠️ Patient workload is {ratioDelta} patients/nurse above benchmark target.
+                  Patient workload is {ratioDelta} patients/nurse above benchmark target.
                 </div>
               )}
             </div>

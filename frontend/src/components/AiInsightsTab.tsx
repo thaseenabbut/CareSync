@@ -35,7 +35,7 @@ export const AiInsightsTab: React.FC<AiInsightsTabProps> = ({
       <div className="ai-tab-header">
         <div className="ai-header-left">
           <div className="ai-badge-row">
-            <span className="ai-pill-brand">⚡ Google Gemini AI</span>
+            <span className="ai-pill-brand">Google Gemini AI</span>
             <span className="ai-pill-mode">Operations Intelligence</span>
             {insights?.model_name && (
               <span className="ai-pill-model">Model: {insights.model_name}</span>
@@ -79,7 +79,7 @@ export const AiInsightsTab: React.FC<AiInsightsTabProps> = ({
               </>
             ) : (
               <>
-                <span>⚡ Run AI Analysis</span>
+                <span>Run AI Analysis</span>
               </>
             )}
           </button>
@@ -100,7 +100,6 @@ export const AiInsightsTab: React.FC<AiInsightsTabProps> = ({
       {/* Model Unavailable or Error Warning */}
       {!isLoading && insights && insights.status === 'model_unavailable' && (
         <div className="alert-callout callout-warning">
-          <span className="callout-icon">⚠️</span>
           <div>
             <strong>AI Engine Temporarily Unavailable:</strong> {insights.error_message}
             <p className="subtext">
@@ -118,7 +117,6 @@ export const AiInsightsTab: React.FC<AiInsightsTabProps> = ({
           {insights.executive_summary && (
             <div className="ai-summary-card">
               <div className="summary-header">
-                <span className="summary-icon">📋</span>
                 <h4>Executive Operational Summary</h4>
                 <span className="verified-tag">AI Generated · Verified Context</span>
               </div>
@@ -184,7 +182,7 @@ export const AiInsightsTab: React.FC<AiInsightsTabProps> = ({
                             <span className={`urgency-badge badge-${act.urgency}`}>
                               {act.urgency.replace('_', ' ').toUpperCase()}
                             </span>
-                            <span className="role-tag">👤 {act.target_role}</span>
+                            <span className="role-tag">Role: {act.target_role}</span>
                           </div>
                           <div className="action-body">{act.action}</div>
                           <div className="action-impact">
@@ -204,21 +202,19 @@ export const AiInsightsTab: React.FC<AiInsightsTabProps> = ({
       {/* Initial Empty State before running */}
       {!isLoading && !insights && (
         <div className="ai-empty-state">
-          <div className="empty-icon">🧠</div>
           <h3>Ready for AI Operations Intelligence</h3>
           <p>
             Click <strong>&quot;Run AI Analysis&quot;</strong> above to send the {bottlenecks.length} active verified
             operational bottlenecks to Google Gemini for root-cause synthesis and suggested staff interventions.
           </p>
           <button className="primary-ai-btn" onClick={handleRunAnalysis}>
-            ⚡ Run Analysis Now
+            Run Analysis Now
           </button>
         </div>
       )}
 
       {/* Safety & Non-Clinical Disclaimer */}
       <div className="disclaimer-callout">
-        <span className="disclaimer-icon">⚖️</span>
         <div className="disclaimer-text">
           <strong>Decision-Support Notice:</strong>{' '}
           {insights?.disclaimer ||

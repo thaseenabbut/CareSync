@@ -45,7 +45,6 @@ export const Navbar: React.FC<NavbarProps> = ({
     <header className="navbar">
       <div className="navbar-brand">
         <div className="brand-logo">
-          <span className="brand-icon">🏥</span>
           <div className="brand-text">
             <span className="brand-title">CareSync</span>
             <span className="brand-badge">Simulated Operations</span>
@@ -67,7 +66,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </span>
           {isAiReady && (
             <span className="ai-status-tag">
-              ⚡ {health?.ai?.model || 'Gemini'}
+              {health?.ai?.model || 'Gemini'}
             </span>
           )}
         </div>
@@ -121,7 +120,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           onClick={() => setShowSettings(!showSettings)}
           title="Backend Connection Settings"
         >
-          ⚙️
+          Settings
         </button>
         <button
           className="refresh-btn"
@@ -141,7 +140,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="modal-header">
               <h3>Backend API Configuration</h3>
               <button className="close-btn" onClick={() => setShowSettings(false)}>
-                ✕
+                &times;
               </button>
             </div>
             <div className="modal-body">

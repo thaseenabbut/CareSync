@@ -13,7 +13,6 @@ export const BottleneckBanner: React.FC<BottleneckBannerProps> = ({
   if (bottlenecks.length === 0) {
     return (
       <div className="banner banner-success">
-        <span className="banner-icon">✓</span>
         <div className="banner-text">
           <strong>Normal Hospital Throughput:</strong> All operational metrics are currently within target thresholds.
         </div>
@@ -28,7 +27,6 @@ export const BottleneckBanner: React.FC<BottleneckBannerProps> = ({
     <div className="bottleneck-banner-container">
       <div className="banner-headline">
         <div className="banner-title-row">
-          <span className="alert-pulse-icon">⚠️</span>
           <div className="banner-title-text">
             <h4>Deterministic Operational Bottlenecks Detected ({bottlenecks.length})</h4>
             <p>
@@ -43,7 +41,7 @@ export const BottleneckBanner: React.FC<BottleneckBannerProps> = ({
             onClick={() => onAnalyzeBottleneck()}
             title="Send all verified findings to Gemini for operational root cause analysis"
           >
-            ⚡ Explain with AI
+            Explain with AI
           </button>
         )}
       </div>

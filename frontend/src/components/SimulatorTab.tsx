@@ -166,7 +166,7 @@ export const SimulatorTab: React.FC = () => {
             onClick={handleSimulate}
             disabled={isRunning}
           >
-            {isRunning ? 'Calculating Mathematical Model...' : '▶ Run Scenario Simulation'}
+            {isRunning ? 'Calculating Mathematical Model...' : 'Run Scenario Simulation'}
           </button>
 
           {error && <div className="sim-error-alert">{error}</div>}
@@ -176,7 +176,6 @@ export const SimulatorTab: React.FC = () => {
         <div className="sim-results-pane">
           {!result && (
             <div className="sim-placeholder">
-              <div className="sim-icon">⚗️</div>
               <h4>Configure parameters and click &quot;Run Scenario Simulation&quot;</h4>
               <p>
                 The simulator clones the hospital state, applies your hypothetical adjustments, and re-runs
@@ -195,7 +194,7 @@ export const SimulatorTab: React.FC = () => {
                 <div className="sim-bottleneck-stat">
                   <div className="stat-pill-row">
                     <span className="pill-old">{result.baseline_bottleneck_count} Baseline</span>
-                    <span className="pill-arrow">➔</span>
+                    <span className="pill-arrow">→</span>
                     <span className="pill-new">{result.simulated_bottleneck_count} Projected</span>
                   </div>
                 </div>
@@ -205,19 +204,19 @@ export const SimulatorTab: React.FC = () => {
               {result.resolved_bottleneck_ids.length > 0 ? (
                 <div className="resolved-box">
                   <div className="resolved-title">
-                    ✅ {result.resolved_bottleneck_ids.length} Operational Bottlenecks Projected to Resolve:
+                    {result.resolved_bottleneck_ids.length} Operational Bottlenecks Projected to Resolve:
                   </div>
                   <div className="resolved-chips-wrap">
                     {result.resolved_bottleneck_ids.map((id) => (
                       <span key={id} className="resolved-chip">
-                        ✓ {id}
+                        {id}
                       </span>
                     ))}
                   </div>
                 </div>
               ) : (
                 <div className="resolved-box box-neutral">
-                  ℹ️ No active bottlenecks completely resolved with these parameters. Try increasing staffing or expediting more discharges.
+                  Notice: No active bottlenecks completely resolved with these parameters. Try increasing staffing or expediting more discharges.
                 </div>
               )}
 

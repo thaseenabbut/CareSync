@@ -18,7 +18,6 @@ export const BedsTab: React.FC<BedsTabProps> = ({ metrics }) => {
       {/* High-level emergency boarding alert */}
       {metrics.emergency_boarded_patients > 0 && (
         <div className="alert-callout callout-critical">
-          <span className="callout-icon">🚨</span>
           <div>
             <strong>Emergency Department Boarding Crisis:</strong>{' '}
             {metrics.emergency_boarded_patients} admitted patients are currently waiting in ED hallways/bays
@@ -93,7 +92,7 @@ export const BedsTab: React.FC<BedsTabProps> = ({ metrics }) => {
 
               {dept.pending_discharge_beds > 0 && (
                 <div className="dept-footer-note">
-                  💡 Expediting {dept.pending_discharge_beds} pending discharges would lower occupancy to{' '}
+                  Expediting {dept.pending_discharge_beds} pending discharges would lower occupancy to{' '}
                   {Math.round(((dept.occupied_beds - dept.pending_discharge_beds) / dept.total_beds) * 100)}%.
                 </div>
               )}

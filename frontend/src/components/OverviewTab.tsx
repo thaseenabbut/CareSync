@@ -30,7 +30,6 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
           subValue={`${metrics.total_occupied_beds} of ${metrics.total_capacity_beds} beds`}
           status={occStatus}
           benchmark="Target < 85.0%"
-          icon="🛏️"
         />
         <StatCard
           label="ED Boarded Patients"
@@ -38,7 +37,6 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
           subValue="Awaiting inpatient bed assignment"
           status={metrics.emergency_boarded_patients >= 8 ? 'critical' : 'normal'}
           benchmark="Target < 8 patients"
-          icon="🚨"
         />
         <StatCard
           label="Pending Discharges"
@@ -46,7 +44,6 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
           subValue="Across all inpatient units"
           status={metrics.total_pending_discharges >= 20 ? 'warning' : 'normal'}
           benchmark="Target < 15 pending"
-          icon="📋"
         />
         <StatCard
           label="Available Inpatient Beds"
@@ -54,7 +51,6 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
           subValue={`${criticalDeptCount} units at critical threshold`}
           status={availableBeds < 35 ? 'warning' : 'normal'}
           benchmark="Surge reserve: 30 beds"
-          icon="🚪"
         />
       </div>
 
@@ -141,7 +137,6 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
           className="action-card action-card-ai"
           onClick={() => onNavigateToTab('ai')}
         >
-          <div className="action-card-icon">🧠</div>
           <div className="action-card-text">
             <h4>AI Operational Intelligence</h4>
             <p>Generate root-cause explanations and suggested workflow actions using Google Gemini.</p>
@@ -153,7 +148,6 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
           className="action-card action-card-sim"
           onClick={() => onNavigateToTab('simulator')}
         >
-          <div className="action-card-icon">⚗️</div>
           <div className="action-card-text">
             <h4>Interactive Scenario Simulator</h4>
             <p>Model staff adjustments, machine repairs, and accelerated discharges in real-time.</p>
