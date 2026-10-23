@@ -1,9 +1,14 @@
 import { useState, useEffect } from 'react';
+import './App.css';
 
 interface HealthStatus {
   status: string;
   service: string;
   version: string;
+}
+
+function StatusDot({ state }: { state: 'ok' | 'error' | 'loading' }) {
+  return <span className={`dot ${state}`} />;
 }
 
 function App() {
@@ -21,69 +26,59 @@ function App() {
   }, []);
 
   return (
-    <div className="app">
-      <header className="app-header">
-        <div className="logo">
-          <span className="logo-icon">🏥</span>
-          <h1>CareSync</h1>
-        </div>
-        <p className="subtitle">Hospital Operations Intelligence</p>
+    <div className="shell">
+      <header>
+        <h1>CareSync</h1>
+        <span className="tag">Operations Intelligence</span>
       </header>
 
-      <main className="app-main">
-        <div className="status-card">
-          <h2>System Status</h2>
+      <main>
+        <section className="status">
+          <h2>System</h2>
           {error && (
-            <div className="status-indicator status-error">
-              <span className="status-dot" />
-              <span>Backend unreachable: {error}</span>
-            </div>
+            <p className="status-line error">
+              <StatusDot state="error" />
+              Backend unreachable — {error}
+            </p>
           )}
           {health && (
-            <div className="status-indicator status-ok">
-              <span className="status-dot" />
-              <span>
-                {health.service} v{health.version} — {health.status}
-              </span>
-            </div>
+            <p className="status-line ok">
+              <StatusDot state="ok" />
+              {health.service} v{health.version}
+            </p>
           )}
           {!health && !error && (
-            <div className="status-indicator status-loading">
-              <span className="status-dot" />
-              <span>Connecting to backend…</span>
-            </div>
+            <p className="status-line loading">
+              <StatusDot state="loading" />
+              Connecting…
+            </p>
           )}
-        </div>
+        </section>
 
-        <div className="placeholder-grid">
-          <div className="placeholder-card">
-            <div className="placeholder-icon">📊</div>
-            <h3>Operational Metrics</h3>
-            <p>Real-time hospital KPIs</p>
+        <section className="modules">
+          <div className="card">
+            <h3>Metrics</h3>
+            <p>Operational KPIs across departments</p>
           </div>
-          <div className="placeholder-card">
-            <div className="placeholder-icon">🛏️</div>
-            <h3>Bed Management</h3>
-            <p>Occupancy &amp; availability tracking</p>
+          <div className="card">
+            <h3>Beds</h3>
+            <p>Occupancy and discharge tracking</p>
           </div>
-          <div className="placeholder-card">
-            <div className="placeholder-icon">🧠</div>
-            <h3>AI Insights</h3>
-            <p>Bottleneck analysis &amp; recommendations</p>
+          <div className="card">
+            <h3>Insights</h3>
+            <p>Bottleneck detection and analysis</p>
           </div>
-          <div className="placeholder-card">
-            <div className="placeholder-icon">⚗️</div>
-            <h3>Scenario Simulator</h3>
-            <p>Explore hypothetical changes</p>
+          <div className="card">
+            <h3>Scenarios</h3>
+            <p>Model hypothetical operational changes</p>
           </div>
-        </div>
+        </section>
       </main>
 
-      <footer className="app-footer">
+      <footer>
         <p>
-          ⚠️ This is an operational decision-support prototype using simulated
-          data. Not for clinical use. AI recommendations are not clinically
-          validated.
+          Decision-support prototype · Simulated data · AI outputs are not
+          clinically validated
         </p>
       </footer>
     </div>
