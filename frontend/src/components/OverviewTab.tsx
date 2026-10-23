@@ -1,79 +1,112 @@
 import React from 'react';
-import { HospitalOperationalSnapshot } from '../types';
-import { StatCard } from './StatCard';
-import { BottleneckBanner } from './BottleneckBanner';
+import { HospitalOperationalSnapshot, ExplainResponse } from '../types';
+import { KpiCards } from './KpiCards';
+import { PatientFlowChart } from './charts/PatientFlowChart';
+import { BedOccupancyChart } from './charts/BedOccupancyChart';
+import { WaitingTimeChart } from './charts/WaitingTimeChart';
+import { HospitalCapacityDonut } from './charts/HospitalCapacityDonut';
+import { AiInsightsPanel } from './AiInsightsPanel';
+import { AlertsSection } from './AlertsSection';
+import { deriveDashboardData } from '../lib/mockData';
+import { DashboardNavTab } from './Sidebar';
 
 interface OverviewTabProps {
   metrics: HospitalOperationalSnapshot;
-  onNavigateToTab: (tab: any) => void;
-  onTriggerAi: (id?: string) => void;
+  insights: ExplainResponse | null;
+  isLoadingAi: boolean;
+  onRequestInsights: (id?: string) => void;
+  onNavigateToTab: (tab: DashboardNavTab) => void;
 }
 
 export const OverviewTab: React.FC<OverviewTabProps> = ({
   metrics,
+  insights,
+  isLoadingAi,
+  onRequestInsights,
   onNavigateToTab,
-  onTriggerAi,
 }) => {
-  const occRate = metrics.overall_occupancy_rate_percent;
-  const occStatus = occRate >= 90 ? 'critical' : occRate >= 85 ? 'warning' : 'normal';
-
-  const availableBeds = metrics.total_capacity_beds - metrics.total_occupied_beds;
-  const criticalDeptCount = metrics.departments.filter((d) => d.status === 'critical').length;
+  const dashboardData = deriveDashboardData(metrics);
 
   return (
-    <div className="tab-container">
-      {/* KPI Cards Row */}
-      <div className="stats-row">
-        <StatCard
-          label="Hospital Bed Occupancy"
-          value={`${occRate}%`}
-          subValue={`${metrics.total_occupied_beds} of ${metrics.total_capacity_beds} beds`}
-          status={occStatus}
-          benchmark="Target < 85.0%"
-        />
-        <StatCard
-          label="ED Boarded Patients"
-          value={metrics.emergency_boarded_patients}
-          subValue="Awaiting inpatient bed assignment"
-          status={metrics.emergency_boarded_patients >= 8 ? 'critical' : 'normal'}
-          benchmark="Target < 8 patients"
-        />
-        <StatCard
-          label="Pending Discharges"
-          value={metrics.total_pending_discharges}
-          subValue="Across all inpatient units"
-          status={metrics.total_pending_discharges >= 20 ? 'warning' : 'normal'}
-          benchmark="Target < 15 pending"
-        />
-        <StatCard
-          label="Available Inpatient Beds"
-          value={availableBeds}
-          subValue={`${criticalDeptCount} units at critical threshold`}
-          status={availableBeds < 35 ? 'warning' : 'normal'}
-          benchmark="Surge reserve: 30 beds"
+    <div className="overview-container">
+      {/* 6 KPI Cards Row */}
+      <KpiCards
+        totalPatients={dashboardData.kpis.totalPatients}
+        availableBeds={dashboardData.kpis.totalAvailable}
+        occupancyRate={dashboardData.kpis.occupancyRate}
+        averageWaitMinutes={dashboardData.kpis.averageWaitMinutes}
+        staffAvailabilityPercent={dashboardData.kpis.staffAvailabilityPercent}
+        activeAlertsCount={dashboardData.kpis.activeAlertsCount}
+        criticalAlertsCount={dashboardData.kpis.criticalAlertsCount}
+        totalCapacity={dashboardData.kpis.totalCapacity}
+        totalActiveRNs={dashboardData.kpis.totalActiveRNs}
+        totalTargetRNs={dashboardData.kpis.totalTargetRNs}
+        onCardClick={(tab) => onNavigateToTab(tab as DashboardNavTab)}
+      />
+
+      {/* Main Analytics Grid Row 1: Patient Flow Line Chart + Capacity Donut */}
+      <div className="analytics-grid-two-col">
+        <div className="col-span-two-thirds">
+          <PatientFlowChart
+            hourlyData={dashboardData.hourlyFlow}
+            dailyData={dashboardData.dailyFlow}
+          />
+        </div>
+        <div className="col-span-one-third">
+          <HospitalCapacityDonut
+            totalCapacity={dashboardData.kpis.totalCapacity}
+            totalOccupied={dashboardData.kpis.totalOccupied}
+            totalAvailable={dashboardData.kpis.totalAvailable}
+            totalUnavailable={dashboardData.kpis.totalUnavailable}
+            occupancyRate={dashboardData.kpis.occupancyRate}
+          />
+        </div>
+      </div>
+
+      {/* Main Analytics Grid Row 2: Bed Occupancy Stacked Bar + Waiting Time Bar */}
+      <div className="analytics-grid-two-col mt-6">
+        <div className="col-half">
+          <BedOccupancyChart data={dashboardData.bedBreakdown} />
+        </div>
+        <div className="col-half">
+          <WaitingTimeChart data={dashboardData.waitingTimes} />
+        </div>
+      </div>
+
+      {/* Section 3: AI Operational Insights Dedicated Panel */}
+      <div className="mt-6">
+        <AiInsightsPanel
+          bottlenecks={metrics.active_bottlenecks}
+          insights={insights}
+          isLoading={isLoadingAi}
+          onRequestInsights={onRequestInsights}
+          onNavigateToTab={onNavigateToTab}
         />
       </div>
 
-      {/* Verified Bottlenecks Banner */}
-      <BottleneckBanner
-        bottlenecks={metrics.active_bottlenecks}
-        onAnalyzeBottleneck={onTriggerAi}
-      />
+      {/* Section 4: Operational Alerts Console */}
+      <div className="mt-6">
+        <AlertsSection
+          alerts={dashboardData.alerts}
+          onTriggerAi={onRequestInsights}
+          onNavigateToTab={onNavigateToTab}
+        />
+      </div>
 
-      {/* Overview Department Capacity Summary Grid */}
-      <div className="section-card">
+      {/* Section 5: Real-time Inpatient Census Summary Table */}
+      <div className="section-card mt-6">
         <div className="section-card-header">
           <div>
-            <h3>Departmental Capacity &amp; Utilization</h3>
+            <h3>Departmental Bed Census &amp; Operational Turnover</h3>
             <p className="section-subtitle">
-              Calculated deterministically from simulated census and admission feeds.
+              Calculated deterministically from verified simulated admissions and patient tracking feeds.
             </p>
           </div>
           <button
-            className="secondary-btn"
+            className="btn-secondary"
             onClick={() => onNavigateToTab('beds')}
           >
-            Detailed Bed View →
+            Comprehensive Bed Management →
           </button>
         </div>
 
@@ -81,16 +114,17 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
           <table className="ops-table">
             <thead>
               <tr>
-                <th>Department</th>
-                <th>Capacity</th>
+                <th>Department / Unit</th>
+                <th>Total Capacity</th>
                 <th>Occupied</th>
-                <th>Pending Discharges</th>
+                <th>Available</th>
+                <th>Pending DC</th>
                 <th>Occupancy Rate</th>
                 <th>Status</th>
               </tr>
             </thead>
             <tbody>
-              {metrics.departments.map((dept) => {
+              {dashboardData.bedBreakdown.map((dept) => {
                 const isCritical = dept.status === 'critical';
                 const isWarning = dept.status === 'warning';
                 return (
@@ -98,9 +132,16 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
                     <td>
                       <strong>{dept.department}</strong>
                     </td>
-                    <td>{dept.total_beds} beds</td>
-                    <td>{dept.occupied_beds}</td>
-                    <td>{dept.pending_discharge_beds}</td>
+                    <td>{dept.total} beds</td>
+                    <td>
+                      <span className="font-semibold text-main">{dept.occupied}</span>
+                    </td>
+                    <td>
+                      <span className={dept.available <= 2 ? 'text-critical font-semibold' : 'text-success'}>
+                        {dept.available}
+                      </span>
+                    </td>
+                    <td>{dept.unavailable} cleaning/hold</td>
                     <td>
                       <div className="progress-cell">
                         <div className="progress-bar-bg">
@@ -108,18 +149,16 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
                             className={`progress-bar-fill ${
                               isCritical ? 'fill-critical' : isWarning ? 'fill-warning' : 'fill-normal'
                             }`}
-                            style={{ width: `${Math.min(dept.occupancy_rate_percent, 100)}%` }}
+                            style={{ width: `${Math.min(dept.occupancyPercent, 100)}%` }}
                           />
                         </div>
-                        <span className="progress-label">{dept.occupancy_rate_percent}%</span>
+                        <span className={`progress-label ${isCritical ? 'text-critical' : isWarning ? 'text-warning' : 'text-main'}`}>
+                          {dept.occupancyPercent}%
+                        </span>
                       </div>
                     </td>
                     <td>
-                      <span
-                        className={`status-pill ${
-                          isCritical ? 'pill-critical' : isWarning ? 'pill-warning' : 'pill-normal'
-                        }`}
-                      >
+                      <span className={`status-pill ${isCritical ? 'pill-critical' : isWarning ? 'pill-warning' : 'pill-normal'}`}>
                         {dept.status.toUpperCase()}
                       </span>
                     </td>
@@ -128,31 +167,6 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
               })}
             </tbody>
           </table>
-        </div>
-      </div>
-
-      {/* Quick Launch Cards */}
-      <div className="quick-actions-row">
-        <div
-          className="action-card action-card-ai"
-          onClick={() => onNavigateToTab('ai')}
-        >
-          <div className="action-card-text">
-            <h4>AI Operational Intelligence</h4>
-            <p>Generate root-cause explanations and suggested workflow actions using Google Gemini.</p>
-          </div>
-          <span className="action-arrow">→</span>
-        </div>
-
-        <div
-          className="action-card action-card-sim"
-          onClick={() => onNavigateToTab('simulator')}
-        >
-          <div className="action-card-text">
-            <h4>Interactive Scenario Simulator</h4>
-            <p>Model staff adjustments, machine repairs, and accelerated discharges in real-time.</p>
-          </div>
-          <span className="action-arrow">→</span>
         </div>
       </div>
     </div>

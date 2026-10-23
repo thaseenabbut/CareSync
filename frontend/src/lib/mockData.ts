@@ -271,3 +271,452 @@ export const BASELINE_SNAPSHOT: HospitalOperationalSnapshot = {
     },
   ],
 };
+
+export const HOURLY_PATIENT_FLOW: PatientFlowPoint[] = [
+  { timeLabel: '00:00', admissions: 3, discharges: 0, emergencyArrivals: 8, netChange: 3 },
+  { timeLabel: '02:00', admissions: 2, discharges: 0, emergencyArrivals: 7, netChange: 2 },
+  { timeLabel: '04:00', admissions: 1, discharges: 0, emergencyArrivals: 6, netChange: 1 },
+  { timeLabel: '06:00', admissions: 4, discharges: 1, emergencyArrivals: 9, netChange: 3 },
+  { timeLabel: '08:00', admissions: 12, discharges: 5, emergencyArrivals: 14, netChange: 7 },
+  { timeLabel: '10:00', admissions: 19, discharges: 14, emergencyArrivals: 17, netChange: 5 },
+  { timeLabel: '12:00', admissions: 24, discharges: 20, emergencyArrivals: 21, netChange: 4 },
+  { timeLabel: '14:00', admissions: 22, discharges: 18, emergencyArrivals: 25, netChange: 4 },
+  { timeLabel: '16:00', admissions: 18, discharges: 12, emergencyArrivals: 26, netChange: 6 },
+  { timeLabel: '18:00', admissions: 15, discharges: 6, emergencyArrivals: 23, netChange: 9 },
+  { timeLabel: '20:00', admissions: 10, discharges: 3, emergencyArrivals: 18, netChange: 7 },
+  { timeLabel: '22:00', admissions: 6, discharges: 1, emergencyArrivals: 12, netChange: 5 },
+];
+
+export const DAILY_PATIENT_FLOW: PatientFlowPoint[] = [
+  { timeLabel: 'Mon', admissions: 48, discharges: 44, emergencyArrivals: 64, netChange: 4 },
+  { timeLabel: 'Tue', admissions: 52, discharges: 49, emergencyArrivals: 71, netChange: 3 },
+  { timeLabel: 'Wed', admissions: 55, discharges: 51, emergencyArrivals: 78, netChange: 4 },
+  { timeLabel: 'Thu', admissions: 61, discharges: 53, emergencyArrivals: 84, netChange: 8 },
+  { timeLabel: 'Fri', admissions: 58, discharges: 62, emergencyArrivals: 82, netChange: -4 },
+  { timeLabel: 'Sat', admissions: 39, discharges: 34, emergencyArrivals: 75, netChange: 5 },
+  { timeLabel: 'Sun', admissions: 35, discharges: 28, emergencyArrivals: 69, netChange: 7 },
+];
+
+export const DEFAULT_WAITING_TIMES: WaitingTimeItem[] = [
+  {
+    department: 'Emergency Dept',
+    category: 'Emergency',
+    waitMinutes: 58,
+    targetMinutes: 45,
+    status: 'warning',
+    queuedCount: 22,
+  },
+  {
+    department: 'Outpatient Clinic',
+    category: 'Outpatient',
+    waitMinutes: 34,
+    targetMinutes: 40,
+    status: 'normal',
+    queuedCount: 14,
+  },
+  {
+    department: 'CT Scan Modality',
+    category: 'Diagnostic',
+    waitMinutes: 185,
+    targetMinutes: 90,
+    status: 'critical',
+    queuedCount: 19,
+  },
+  {
+    department: 'MRI Suite',
+    category: 'Diagnostic',
+    waitMinutes: 65,
+    targetMinutes: 60,
+    status: 'warning',
+    queuedCount: 7,
+  },
+  {
+    department: 'Ultrasound',
+    category: 'Diagnostic',
+    waitMinutes: 42,
+    targetMinutes: 45,
+    status: 'normal',
+    queuedCount: 11,
+  },
+  {
+    department: 'Surgical Holding',
+    category: 'Surgical',
+    waitMinutes: 28,
+    targetMinutes: 35,
+    status: 'normal',
+    queuedCount: 8,
+  },
+];
+
+export const DEFAULT_RESOURCE_UTILIZATION: ResourceUtilizationItem[] = [
+  {
+    resource: 'ICU Acute Beds',
+    category: 'Critical Care',
+    totalCapacity: 24,
+    inUse: 23,
+    available: 1,
+    utilizationPercent: 95.8,
+    unit: 'beds',
+    status: 'critical',
+  },
+  {
+    resource: 'Operating Suites',
+    category: 'Surgical',
+    totalCapacity: 8,
+    inUse: 7,
+    available: 1,
+    utilizationPercent: 87.5,
+    unit: 'suites',
+    status: 'warning',
+  },
+  {
+    resource: 'CT Scanner Modality',
+    category: 'Imaging',
+    totalCapacity: 3,
+    inUse: 2,
+    available: 0,
+    utilizationPercent: 92.0,
+    unit: 'scanners (1 offline)',
+    status: 'critical',
+  },
+  {
+    resource: 'MRI System',
+    category: 'Imaging',
+    totalCapacity: 2,
+    inUse: 1.4,
+    available: 0.6,
+    utilizationPercent: 70.0,
+    unit: 'systems',
+    status: 'normal',
+  },
+  {
+    resource: 'Ultrasound Units',
+    category: 'Imaging',
+    totalCapacity: 3,
+    inUse: 2,
+    available: 1,
+    utilizationPercent: 65.0,
+    unit: 'units',
+    status: 'normal',
+  },
+  {
+    resource: 'Cardiac Cath Lab',
+    category: 'Specialty Care',
+    totalCapacity: 6,
+    inUse: 5,
+    available: 1,
+    utilizationPercent: 83.3,
+    unit: 'labs',
+    status: 'warning',
+  },
+];
+
+export const DEFAULT_ALERTS: OperationalAlertItem[] = [
+  {
+    id: 'ALT-1',
+    severity: 'critical',
+    title: 'ICU Approaching Maximum Capacity',
+    department: 'Intensive Care Unit',
+    message: '23 of 24 beds occupied (95.8%). Only 1 available bed remaining. Immediate risk of acute patient diversion.',
+    metric: 'Occupancy Rate',
+    observed: '95.8%',
+    threshold: '< 90.0%',
+    timestamp: '8 mins ago',
+    actionLabel: 'Initiate ICU Stepdown Review',
+    targetTab: 'beds',
+  },
+  {
+    id: 'ALT-2',
+    severity: 'critical',
+    title: 'Admitted Patient Boarding in ED',
+    department: 'Emergency Department',
+    message: '14 admitted patients currently boarding in ED hallways/bays awaiting inpatient ward transfer.',
+    metric: 'Boarded Inpatients',
+    observed: '14 patients',
+    threshold: '< 8 patients',
+    timestamp: '14 mins ago',
+    actionLabel: 'Expedite General Med Discharges',
+    targetTab: 'beds',
+  },
+  {
+    id: 'ALT-3',
+    severity: 'critical',
+    title: 'Severe Nurse Shortage in General Medicine',
+    department: 'General Medicine',
+    message: '18 active RNs vs 28 target. Patient-to-nurse ratio strained at 6.2:1 against 4.0:1 benchmark safety threshold.',
+    metric: 'Patient-to-Nurse Ratio',
+    observed: '6.2:1',
+    threshold: '<= 4.0:1',
+    timestamp: '22 mins ago',
+    actionLabel: 'Call Float Pool Staff',
+    targetTab: 'staffing',
+  },
+  {
+    id: 'ALT-4',
+    severity: 'critical',
+    title: 'CT Scanner #3 Offline - Diagnostic Queue Delay',
+    department: 'Diagnostics - CT Scan',
+    message: 'CT Scanner #3 offline for tube calibration. Average queue wait has reached 185 min with 19 pending urgent scans.',
+    metric: 'Average Wait Time',
+    observed: '185.0 min (2/3 operational)',
+    threshold: '< 90.0 min',
+    timestamp: '35 mins ago',
+    actionLabel: 'Fast-Track Biomedical Service',
+    targetTab: 'diagnostics',
+  },
+  {
+    id: 'ALT-5',
+    severity: 'warning',
+    title: 'Surgical Ward Elevated Census',
+    department: 'Surgical Ward',
+    message: '52 of 60 beds occupied (86.7%), approaching the 85.0% warning threshold prior to scheduled post-op admissions.',
+    metric: 'Occupancy Rate',
+    observed: '86.7%',
+    threshold: '< 85.0%',
+    timestamp: '42 mins ago',
+    actionLabel: 'Review Discharge Readiness',
+    targetTab: 'beds',
+  },
+  {
+    id: 'ALT-6',
+    severity: 'warning',
+    title: 'Discharge Execution Lag in Inpatient Wards',
+    department: 'Inpatient Units',
+    message: '6 medically cleared patients delayed > 4 hours holding acute beds due to transportation and pharmacy reconciliation delays.',
+    metric: 'Discharge Lag',
+    observed: '6 patients > 4h',
+    threshold: '< 4.0 hours',
+    timestamp: '1 hour ago',
+    actionLabel: 'Prioritize Discharge Lounge',
+    targetTab: 'diagnostics',
+  },
+  {
+    id: 'ALT-7',
+    severity: 'warning',
+    title: 'Emergency Department Triage Wait Spike',
+    department: 'Emergency Department',
+    message: 'Average ED waiting time climbed to 58 minutes (+13 min above benchmark target) following afternoon surge.',
+    metric: 'Wait Time',
+    observed: '58 min',
+    threshold: '< 45 min',
+    timestamp: '1.2 hours ago',
+    actionLabel: 'Open Fast-Track Pod',
+    targetTab: 'patient-flow',
+  },
+  {
+    id: 'ALT-8',
+    severity: 'info',
+    title: 'Afternoon Shift Handover Underway',
+    department: 'Nursing Operations',
+    message: 'Shift handover briefing initiated across General Medicine, ICU, and Surgical units. Coverage check scheduled.',
+    timestamp: '25 mins ago',
+    actionLabel: 'View Staffing Roster',
+    targetTab: 'staffing',
+  },
+  {
+    id: 'ALT-9',
+    severity: 'info',
+    title: 'Automated Hospital Telemetry Synchronization',
+    department: 'Operations Command',
+    message: 'Daily electronic census and modality operational records synchronized. System operating in verified demo baseline.',
+    timestamp: 'Just now',
+    actionLabel: 'View Diagnostics',
+    targetTab: 'overview',
+  },
+];
+
+import {
+  BedDepartmentBreakdown,
+  OperationalAlertItem,
+  PatientFlowPoint,
+  ResourceUtilizationItem,
+  StaffAvailabilityItem,
+  WaitingTimeItem,
+} from '../types';
+
+/**
+ * Derives comprehensive chart metrics from the active hospital snapshot.
+ * Ensures charts reflect live backend state dynamically while providing rich fallbacks.
+ */
+export function deriveDashboardData(snapshot: HospitalOperationalSnapshot) {
+  // 1. Bed breakdown across departments
+  const bedBreakdown: BedDepartmentBreakdown[] = snapshot.departments.map((dept) => {
+    const isCritical = dept.status === 'critical';
+    const isWarning = dept.status === 'warning';
+    const threshold = dept.department === 'Surgical Ward' ? 85 : 90;
+
+    // Allocate 1-2 beds for terminal cleaning/maintenance if not critical
+    const unavailable = dept.department === 'General Medicine' ? 2 :
+                        dept.department === 'Surgical Ward' ? 2 :
+                        dept.department === 'Pediatrics' ? 1 : 0;
+    const available = Math.max(0, dept.total_beds - dept.occupied_beds - unavailable);
+
+    return {
+      department: dept.department,
+      total: dept.total_beds,
+      occupied: dept.occupied_beds,
+      available,
+      unavailable,
+      occupancyPercent: dept.occupancy_rate_percent,
+      threshold,
+      status: isCritical ? 'critical' : isWarning ? 'warning' : 'normal',
+    };
+  });
+
+  // 2. Waiting times derived from diagnostic backlogs and ED boarding
+  const waitingTimes: WaitingTimeItem[] = [
+    {
+      department: 'Emergency Dept',
+      category: 'Emergency',
+      waitMinutes: snapshot.emergency_boarded_patients > 10 ? 58 : 38,
+      targetMinutes: 45,
+      status: snapshot.emergency_boarded_patients > 10 ? 'warning' : 'normal',
+      queuedCount: snapshot.emergency_boarded_patients + 8,
+    },
+    {
+      department: 'Outpatient Care',
+      category: 'Outpatient',
+      waitMinutes: 34,
+      targetMinutes: 40,
+      status: 'normal',
+      queuedCount: 14,
+    },
+    ...snapshot.diagnostic_backlogs.map((diag) => {
+      let target = 90;
+      if (diag.modality === 'MRI') target = 60;
+      if (diag.modality === 'Ultrasound') target = 45;
+      if (diag.modality === 'X-Ray') target = 30;
+
+      const isCritical = diag.average_wait_minutes >= target * 1.5;
+      const isWarning = diag.average_wait_minutes > target;
+
+      return {
+        department: `${diag.modality} Modality`,
+        category: 'Diagnostic' as const,
+        waitMinutes: Math.round(diag.average_wait_minutes),
+        targetMinutes: target,
+        status: isCritical ? 'critical' as const : isWarning ? 'warning' as const : 'normal' as const,
+        queuedCount: diag.pending_scans,
+      };
+    }),
+  ];
+
+  // 3. Staff availability derived from staffing indicators
+  const staffAvailability: StaffAvailabilityItem[] = snapshot.staffing_indicators.map((s) => {
+    const coverage = Math.round((s.active_nurses / s.target_nurses) * 100);
+    return {
+      department: s.department,
+      availableStaff: s.active_nurses,
+      requiredStaff: s.target_nurses,
+      coveragePercent: coverage,
+      patientToStaffRatio: s.patient_to_nurse_ratio,
+      targetRatio: s.target_ratio,
+      status: s.status,
+    };
+  });
+
+  // 4. Resource utilization derived from bed and diagnostics data
+  const ctScan = snapshot.diagnostic_backlogs.find((d) => d.modality === 'CT Scan');
+  const icu = snapshot.departments.find((d) => d.department === 'Intensive Care Unit');
+
+  const resourceUtilization: ResourceUtilizationItem[] = [
+    {
+      resource: 'ICU Acute Beds',
+      category: 'Critical Care',
+      totalCapacity: icu ? icu.total_beds : 24,
+      inUse: icu ? icu.occupied_beds : 23,
+      available: icu ? icu.total_beds - icu.occupied_beds : 1,
+      utilizationPercent: icu ? icu.occupancy_rate_percent : 95.8,
+      unit: 'beds',
+      status: icu && icu.occupancy_rate_percent >= 90 ? 'critical' : 'normal',
+    },
+    {
+      resource: 'Operating Suites (OR)',
+      category: 'Surgical',
+      totalCapacity: 8,
+      inUse: 7,
+      available: 1,
+      utilizationPercent: 87.5,
+      unit: 'suites',
+      status: 'warning',
+    },
+    {
+      resource: 'CT Scanner Modality',
+      category: 'Imaging',
+      totalCapacity: ctScan ? ctScan.total_machines : 3,
+      inUse: ctScan ? ctScan.in_service_machines : 2,
+      available: ctScan ? ctScan.total_machines - ctScan.in_service_machines : 1,
+      utilizationPercent: ctScan && ctScan.in_service_machines < ctScan.total_machines ? 92.0 : 68.0,
+      unit: ctScan && ctScan.in_service_machines < ctScan.total_machines ? 'active (1 offline)' : 'scanners',
+      status: ctScan && ctScan.status === 'critical' ? 'critical' : 'normal',
+    },
+    {
+      resource: 'MRI System',
+      category: 'Imaging',
+      totalCapacity: 2,
+      inUse: 1.4,
+      available: 0.6,
+      utilizationPercent: 70.0,
+      unit: 'systems',
+      status: 'normal',
+    },
+    {
+      resource: 'Ultrasound Units',
+      category: 'Imaging',
+      totalCapacity: 3,
+      inUse: 2,
+      available: 1,
+      utilizationPercent: 65.0,
+      unit: 'units',
+      status: 'normal',
+    },
+    {
+      resource: 'Cardiac Cath Lab',
+      category: 'Specialty Care',
+      totalCapacity: 6,
+      inUse: 5,
+      available: 1,
+      utilizationPercent: 83.3,
+      unit: 'labs',
+      status: 'warning',
+    },
+  ];
+
+  // 5. Total available and unavailable beds
+  const totalOccupied = snapshot.total_occupied_beds;
+  const totalCapacity = snapshot.total_capacity_beds;
+  const totalUnavailable = bedBreakdown.reduce((acc, curr) => acc + curr.unavailable, 0);
+  const totalAvailable = Math.max(0, totalCapacity - totalOccupied - totalUnavailable);
+
+  // 6. Total active nurses
+  const totalActiveRNs = snapshot.staffing_indicators.reduce((acc, curr) => acc + curr.active_nurses, 0);
+  const totalTargetRNs = snapshot.staffing_indicators.reduce((acc, curr) => acc + curr.target_nurses, 0);
+  const overallStaffCoverage = Math.round((totalActiveRNs / totalTargetRNs) * 100);
+
+  // 7. Composite wait time
+  const edWait = waitingTimes.find((w) => w.department === 'Emergency Dept')?.waitMinutes || 58;
+
+  return {
+    kpis: {
+      totalPatients: totalOccupied + snapshot.emergency_boarded_patients,
+      totalCapacity,
+      totalOccupied,
+      totalAvailable,
+      totalUnavailable,
+      occupancyRate: snapshot.overall_occupancy_rate_percent,
+      averageWaitMinutes: edWait,
+      staffAvailabilityPercent: overallStaffCoverage,
+      totalActiveRNs,
+      totalTargetRNs,
+      activeAlertsCount: snapshot.active_bottlenecks.length,
+      criticalAlertsCount: snapshot.active_bottlenecks.filter((b) => b.severity === 'critical').length,
+    },
+    bedBreakdown,
+    waitingTimes,
+    staffAvailability,
+    resourceUtilization,
+    alerts: DEFAULT_ALERTS,
+    hourlyFlow: HOURLY_PATIENT_FLOW,
+    dailyFlow: DAILY_PATIENT_FLOW,
+  };
+}

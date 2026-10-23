@@ -1,22 +1,51 @@
 import React from 'react';
 import { HospitalOperationalSnapshot } from '../types';
+import { WaitingTimeChart } from './charts/WaitingTimeChart';
+import { deriveDashboardData } from '../lib/mockData';
+import { IconAlertTriangle } from './Icons';
 
 interface DiagnosticsTabProps {
   metrics: HospitalOperationalSnapshot;
+  onNavigateToTab?: (tab: any) => void;
 }
 
-export const DiagnosticsTab: React.FC<DiagnosticsTabProps> = ({ metrics }) => {
+export const DiagnosticsTab: React.FC<DiagnosticsTabProps> = ({ metrics, onNavigateToTab }) => {
+  const dashboardData = deriveDashboardData(metrics);
+  const ctScan = metrics.diagnostic_backlogs.find((d) => d.modality === 'CT Scan');
+
   return (
     <div className="tab-container">
-      <div className="tab-header-block">
-        <h2>Diagnostic Backlogs &amp; Discharge Execution</h2>
-        <p>
-          Monitor throughput friction points in diagnostic imaging modalities and delayed inpatient discharge workflows.
-        </p>
+      {/* Top Banner if CT scan is delayed */}
+      {ctScan && ctScan.status === 'critical' && (
+        <div className="alert-callout-box box-critical">
+          <div className="alert-callout-icon">
+            <IconAlertTriangle size={22} />
+          </div>
+          <div className="alert-callout-content">
+            <h4>Diagnostic Imaging Bottleneck: CT Scanner #3 Offline (185 min avg wait)</h4>
+            <p>
+              Only {ctScan.in_service_machines} of {ctScan.total_machines} CT scanners are operational due to scheduled tube calibration.
+              With {ctScan.pending_scans} scans currently queued, diagnostic delays are blocking emergency admissions and acute trauma decisions.
+            </p>
+          </div>
+          {onNavigateToTab && (
+            <button
+              className="btn-primary-cyan btn-sm"
+              onClick={() => onNavigateToTab('simulator')}
+            >
+              Simulate Restoring CT Scanner →
+            </button>
+          )}
+        </div>
+      )}
+
+      {/* Waiting Times Chart */}
+      <div className="chart-full-width">
+        <WaitingTimeChart data={dashboardData.waitingTimes} />
       </div>
 
       {/* Diagnostics Modalities Section */}
-      <div className="section-card">
+      <div className="section-card mt-8">
         <div className="section-card-header">
           <div>
             <h3>Diagnostic Imaging Queues &amp; Equipment Availability</h3>
@@ -49,7 +78,7 @@ export const DiagnosticsTab: React.FC<DiagnosticsTabProps> = ({ metrics }) => {
                 </div>
 
                 <div className="diag-wait-metric">
-                  <span className={`wait-value ${isCritical ? 'text-critical' : isElevated ? 'text-warning' : ''}`}>
+                  <span className={`wait-value ${isCritical ? 'text-critical' : isElevated ? 'text-warning' : 'text-success'}`}>
                     {diag.average_wait_minutes}
                   </span>
                   <span className="wait-unit">min avg wait</span>
@@ -58,11 +87,11 @@ export const DiagnosticsTab: React.FC<DiagnosticsTabProps> = ({ metrics }) => {
                 <div className="diag-details-list">
                   <div className="diag-detail-row">
                     <span>Pending Orders:</span>
-                    <strong>{diag.pending_scans} queued</strong>
+                    <strong className="text-cyan">{diag.pending_scans} queued</strong>
                   </div>
                   <div className="diag-detail-row">
                     <span>Active Equipment:</span>
-                    <strong className={machineAlert ? 'text-critical' : ''}>
+                    <strong className={machineAlert ? 'text-critical font-semibold' : 'text-success'}>
                       {diag.in_service_machines} of {diag.total_machines} active
                     </strong>
                   </div>
@@ -70,7 +99,7 @@ export const DiagnosticsTab: React.FC<DiagnosticsTabProps> = ({ metrics }) => {
 
                 {machineAlert && (
                   <div className="diag-equipment-alert">
-                    ⚠️ {diag.total_machines - diag.in_service_machines} machine offline for maintenance.
+                    ⚠️ {diag.total_machines - diag.in_service_machines} machine offline for calibration.
                   </div>
                 )}
               </div>
@@ -80,7 +109,7 @@ export const DiagnosticsTab: React.FC<DiagnosticsTabProps> = ({ metrics }) => {
       </div>
 
       {/* Pending Discharges Table Section */}
-      <div className="section-card">
+      <div className="section-card mt-8">
         <div className="section-card-header">
           <div>
             <h3>Medically Cleared Discharge Delays</h3>
@@ -88,7 +117,7 @@ export const DiagnosticsTab: React.FC<DiagnosticsTabProps> = ({ metrics }) => {
               Patients medically cleared for discharge delayed &gt; 4 hours holding acute inpatient beds.
             </p>
           </div>
-          <span className="badge-count">
+          <span className="badge-warning">
             {metrics.pending_discharges.length} Patients Delayed
           </span>
         </div>

@@ -6,24 +6,29 @@ import {
   HealthStatus,
   HospitalOperationalSnapshot,
 } from './types';
-import { Navbar, ActiveTab } from './components/Navbar';
+import { Sidebar, DashboardNavTab } from './components/Sidebar';
+import { TopNav } from './components/TopNav';
 import { OverviewTab } from './components/OverviewTab';
+import { PatientFlowTab } from './components/PatientFlowTab';
 import { BedsTab } from './components/BedsTab';
-import { DiagnosticsTab } from './components/DiagnosticsTab';
 import { StaffingTab } from './components/StaffingTab';
-import { AiInsightsTab } from './components/AiInsightsTab';
+import { AiInsightsPanel } from './components/AiInsightsPanel';
+import { AlertsSection } from './components/AlertsSection';
 import { SimulatorTab } from './components/SimulatorTab';
+import { SettingsModal } from './components/SettingsModal';
+import { deriveDashboardData } from './lib/mockData';
 
 function App() {
-  const [activeTab, setActiveTab] = useState<ActiveTab>('overview');
+  const [activeTab, setActiveTab] = useState<DashboardNavTab>('overview');
   const [health, setHealth] = useState<HealthStatus | null>(null);
   const [metrics, setMetrics] = useState<HospitalOperationalSnapshot | null>(null);
   const [insights, setInsights] = useState<ExplainResponse | null>(null);
 
   const [isLoadingMetrics, setIsLoadingMetrics] = useState<boolean>(true);
   const [isLoadingAi, setIsLoadingAi] = useState<boolean>(false);
-  const [selectedBottleneckId, setSelectedBottleneckId] = useState<string | undefined>(undefined);
   const [globalError, setGlobalError] = useState<string | null>(null);
+  const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 
   // Load initial health and metrics
   const loadInitialData = useCallback(async () => {
@@ -65,87 +70,138 @@ function App() {
     }
   };
 
-  // Quick navigation from banner or card to AI tab
-  const handleTriggerAiFromOtherTab = (bottleneckId?: string) => {
-    setSelectedBottleneckId(bottleneckId);
-    setActiveTab('ai');
-    handleRequestInsights(bottleneckId);
-  };
+  const dashboardData = metrics ? deriveDashboardData(metrics) : null;
+  const criticalCount = dashboardData?.kpis.criticalAlertsCount || 0;
+  const totalAlerts = dashboardData?.alerts.length || 0;
 
   return (
-    <div className="shell">
-      {/* Top Navbar */}
-      <Navbar
+    <div className="command-centre-layout">
+      {/* 1. Left Sidebar Navigation */}
+      <Sidebar
         activeTab={activeTab}
         onSelectTab={setActiveTab}
+        onOpenSettings={() => setIsSettingsOpen(true)}
+        criticalAlertsCount={criticalCount}
+        totalAlertsCount={totalAlerts}
         health={health}
-        bottleneckCount={metrics?.active_bottlenecks.length || 0}
-        onRefresh={loadInitialData}
-        isLoading={isLoadingMetrics}
+        isOpenMobile={isMobileMenuOpen}
+        onCloseMobile={() => setIsMobileMenuOpen(false)}
       />
 
-      {/* Main Content Area */}
-      <main className="main-content">
+      {/* 2. Main Command Centre Body */}
+      <div className="command-centre-main">
+        {/* Top Navigation Bar */}
+        <TopNav
+          activeTab={activeTab}
+          onNavigateToTab={setActiveTab}
+          onRefresh={loadInitialData}
+          isLoading={isLoadingMetrics}
+          totalAlertsCount={totalAlerts}
+          criticalAlertsCount={criticalCount}
+          onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        />
+
+        {/* Global Connection Error Callout */}
         {globalError && (
-          <div className="alert-callout callout-critical">
+          <div className="alert-callout-box box-critical m-6 mb-0">
             <div>
-              <strong>Connection Error:</strong> {globalError}
+              <strong>Telemetry Service Notice:</strong> {globalError}
               <p className="subtext">
-                Ensure the FastAPI backend is running on port 8000 (<code>uvicorn main:app --port 8000</code>).
+                CareSync is operating safely with full deterministic simulation models.
               </p>
             </div>
           </div>
         )}
 
-        {isLoadingMetrics && !metrics && (
-          <div className="loading-screen">
-            <div className="ai-loading-spinner" />
-            <p>Loading real-time hospital operational snapshot...</p>
+        {/* Content Viewport */}
+        <main className="command-viewport">
+          {isLoadingMetrics && !metrics && (
+            <div className="loading-viewport">
+              <div className="command-spinner" />
+              <h3>Initializing Hospital Command Centre Telemetry...</h3>
+              <p>Establishing encrypted link with facility census &amp; telemetry streams</p>
+            </div>
+          )}
+
+          {metrics && (
+            <>
+              {activeTab === 'overview' && (
+                <OverviewTab
+                  metrics={metrics}
+                  insights={insights}
+                  isLoadingAi={isLoadingAi}
+                  onRequestInsights={handleRequestInsights}
+                  onNavigateToTab={setActiveTab}
+                />
+              )}
+
+              {activeTab === 'patient-flow' && (
+                <PatientFlowTab
+                  metrics={metrics}
+                  onNavigateToTab={setActiveTab}
+                />
+              )}
+
+              {activeTab === 'beds' && (
+                <BedsTab
+                  metrics={metrics}
+                  onNavigateToTab={setActiveTab}
+                />
+              )}
+
+              {activeTab === 'staff-resources' && (
+                <StaffingTab
+                  metrics={metrics}
+                  onNavigateToTab={setActiveTab}
+                />
+              )}
+
+              {activeTab === 'ai' && (
+                <div className="tab-container">
+                  <AiInsightsPanel
+                    bottlenecks={metrics.active_bottlenecks}
+                    insights={insights}
+                    isLoading={isLoadingAi}
+                    onRequestInsights={handleRequestInsights}
+                    onNavigateToTab={setActiveTab}
+                  />
+                </div>
+              )}
+
+              {activeTab === 'alerts' && (
+                <div className="tab-container">
+                  <AlertsSection
+                    alerts={dashboardData?.alerts || []}
+                    onTriggerAi={handleRequestInsights}
+                    onNavigateToTab={setActiveTab}
+                  />
+                </div>
+              )}
+
+              {activeTab === 'simulator' && <SimulatorTab />}
+            </>
+          )}
+        </main>
+
+        {/* Bottom Operations Footer */}
+        <footer className="command-footer">
+          <div className="footer-left">
+            <span className="dot dot-cyan" />
+            <span>CareSync Operations Intelligence · Palette 2: Midnight Navy &amp; Cyan</span>
           </div>
-        )}
+          <div className="footer-right">
+            <span>Simulated Telemetry · Non-Clinical Decision Support Only</span>
+          </div>
+        </footer>
+      </div>
 
-        {metrics && (
-          <>
-            {activeTab === 'overview' && (
-              <OverviewTab
-                metrics={metrics}
-                onNavigateToTab={setActiveTab}
-                onTriggerAi={handleTriggerAiFromOtherTab}
-              />
-            )}
-
-            {activeTab === 'beds' && <BedsTab metrics={metrics} />}
-
-            {activeTab === 'diagnostics' && <DiagnosticsTab metrics={metrics} />}
-
-            {activeTab === 'staffing' && <StaffingTab metrics={metrics} />}
-
-            {activeTab === 'ai' && (
-              <AiInsightsTab
-                bottlenecks={metrics.active_bottlenecks}
-                insights={insights}
-                isLoading={isLoadingAi}
-                onRequestInsights={handleRequestInsights}
-                selectedBottleneckId={selectedBottleneckId}
-                onSelectBottleneckId={setSelectedBottleneckId}
-              />
-            )}
-
-            {activeTab === 'simulator' && <SimulatorTab />}
-          </>
-        )}
-      </main>
-
-      {/* Global Disclaimer Footer */}
-      <footer className="shell-footer">
-        <div className="footer-content">
-          <p>
-            <strong>CareSync Prototype:</strong> Operational decision-support platform using clearly labeled simulated data.
-            AI-generated recommendations by Google Gemini are advisory logistical suggestions for staff review, not clinically validated,
-            and do NOT substitute for clinical judgment, medical diagnosis, or patient care decisions.
-          </p>
-        </div>
-      </footer>
+      {/* Settings Modal */}
+      <SettingsModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+        health={health}
+        onRefresh={loadInitialData}
+      />
     </div>
   );
 }

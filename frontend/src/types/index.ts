@@ -132,3 +132,66 @@ export interface HealthStatus {
     configured: boolean;
   };
 }
+
+export interface PatientFlowPoint {
+  timeLabel: string;
+  admissions: number;
+  discharges: number;
+  emergencyArrivals: number;
+  netChange: number;
+}
+
+export interface BedDepartmentBreakdown {
+  department: DepartmentName | string;
+  total: number;
+  occupied: number;
+  available: number;
+  unavailable: number;
+  occupancyPercent: number;
+  threshold: number;
+  status: 'normal' | 'warning' | 'critical';
+}
+
+export interface WaitingTimeItem {
+  department: string;
+  category: 'Emergency' | 'Outpatient' | 'Diagnostic' | 'Surgical';
+  waitMinutes: number;
+  targetMinutes: number;
+  status: 'normal' | 'warning' | 'critical';
+  queuedCount?: number;
+}
+
+export interface StaffAvailabilityItem {
+  department: DepartmentName | string;
+  availableStaff: number;
+  requiredStaff: number;
+  coveragePercent: number;
+  patientToStaffRatio: number;
+  targetRatio: number;
+  status: 'adequate' | 'strained' | 'critical_shortage';
+}
+
+export interface ResourceUtilizationItem {
+  resource: string;
+  category: string;
+  totalCapacity: number;
+  inUse: number;
+  available: number;
+  utilizationPercent: number;
+  unit: string;
+  status: 'normal' | 'warning' | 'critical';
+}
+
+export interface OperationalAlertItem {
+  id: string;
+  severity: 'critical' | 'warning' | 'info';
+  title: string;
+  department: string;
+  message: string;
+  metric?: string;
+  observed?: string;
+  threshold?: string;
+  timestamp: string;
+  actionLabel?: string;
+  targetTab?: string;
+}
