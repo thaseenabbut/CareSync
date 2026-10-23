@@ -101,10 +101,10 @@ export const AiInsightsTab: React.FC<AiInsightsTabProps> = ({
       {!isLoading && insights && insights.status === 'model_unavailable' && (
         <div className="alert-callout callout-warning">
           <div>
-            <strong>AI Engine Temporarily Unavailable:</strong> {insights.error_message}
+            <strong>AI Recommendations Temporarily Unavailable</strong>
+            <p>{insights.error_message || 'Please try again in a few minutes.'}</p>
             <p className="subtext">
-              Deterministic metrics and rule-based bottleneck alerts remain fully functional. No fabricated
-              fallback text was substituted.
+              Your verified operational metrics and rule-based bottleneck alerts remain available and unchanged.
             </p>
           </div>
         </div>

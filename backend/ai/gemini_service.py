@@ -177,11 +177,21 @@ def generate_bottleneck_explanations(
         sanitized_msg = err_msg.replace(str(settings.effective_gemini_api_key or ""), "[REDACTED_KEY]")
         logger.error(f"Gemini API invocation error: {sanitized_msg}")
 
+        # Provider errors can include internal quota details and long diagnostic payloads.
+        # Keep those in the server logs while returning a calm, actionable message to users.
+        is_rate_limited = "429" in sanitized_msg or "RESOURCE_EXHAUSTED" in sanitized_msg
+        user_message = (
+            "AI recommendations are temporarily unavailable due to a service capacity limit. "
+            "Please try again in a few minutes."
+            if is_rate_limited
+            else "AI recommendations are temporarily unavailable. Please try again shortly."
+        )
+
         return ExplainResponse(
             status="model_unavailable",
             model_name=settings.gemini_model,
             verified_bottlenecks_analyzed=verified_bottlenecks,
             explanations=[],
             executive_summary=None,
-            error_message=f"Gemini operational advisor unavailable: {sanitized_msg[:180]}",
+            error_message=user_message,
         )
