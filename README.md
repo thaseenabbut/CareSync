@@ -43,4 +43,4 @@ ollama pull phi3:mini
 
 ## License
 
-MIT
+[MIT License](LICENSE)
