@@ -43,6 +43,31 @@
 
 ---
 
+## 🎨 UI Design System
+
+CareSync uses a **Midnight Navy + Cyan** command-centre aesthetic designed for hospital administrators:
+
+| Token | Value | Purpose |
+|---|---|---|
+| Main Background | `#0B1220` | Dark navy canvas |
+| Card / Panel | `#151F32` | Elevated surfaces |
+| Primary Accent | `#38BDF8` | Interactive elements & highlights |
+| Success / Healthy | `#34D399` | Positive status indicators |
+| Warning | `#FBBF24` | Attention thresholds |
+| Critical / Emergency | `#F87171` | Alert & breach states |
+| Chart Accent 2 | `#818CF8` | Secondary data series |
+
+**Dashboard Layout:**
+- **Sidebar** — CareSync logo, persistent navigation (Overview, Patient Flow, Bed Management, Staff & Resources, AI Insights, Alerts, Simulator, Settings)
+- **TopNav** — Page title with Live Telemetry badge, Simulated Telemetry indicator, notification bell with alerts count, Sync button, and administrator profile
+- **KPI Cards Row** — 6-card grid: Total Patients, Available Beds, Bed Occupancy Rate, Average Waiting Time, Staff Availability, Active Alerts
+- **Analytics Charts** — Patient Flow line chart (hourly/daily toggle), Hospital Capacity donut, Bed Occupancy stacked bar, Waiting Time bar, Staff Availability, Resource Utilization
+- **AI Insights Panel** — Gemini-powered root-cause analysis with action steps
+- **Alerts Console** — Filterable alert stream with severity triage
+- **Census Table** — Department-by-department bed census with progress bars
+
+---
+
 ## 🏗️ Architecture & Tech Stack
 
 ```
@@ -58,18 +83,31 @@ CareSync/
 │   └── requirements.txt
 └── frontend/
     ├── src/
-    │   ├── components/ # Dashboard tabs (Overview, Beds, Diagnostics, Staffing, AI, Simulator)
-    │   ├── lib/        # Resilient API client & client-side simulation engine
+    │   ├── components/
+    │   │   ├── charts/     # Recharts wrappers (PatientFlow, BedOccupancy, WaitingTime, Donut, etc.)
+    │   │   ├── Sidebar.tsx # Persistent left navigation
+    │   │   ├── TopNav.tsx  # Top navigation bar
+    │   │   ├── KpiCards.tsx
+    │   │   ├── OverviewTab.tsx
+    │   │   ├── PatientFlowTab.tsx
+    │   │   ├── BedsTab.tsx
+    │   │   ├── StaffingTab.tsx
+    │   │   ├── AiInsightsPanel.tsx
+    │   │   ├── AlertsSection.tsx
+    │   │   ├── SimulatorTab.tsx
+    │   │   └── SettingsModal.tsx
+    │   ├── lib/        # Resilient API client, mock data & deriveDashboardData helper
     │   ├── types/      # TypeScript interfaces
     │   ├── App.tsx     # Application shell & state coordination
-    │   └── App.css     # Medical-grade responsive dark theme
+    │   ├── App.css     # Midnight Navy + Cyan design system (3000+ lines)
+    │   └── index.css   # Design tokens & base resets
     ├── package.json
     ├── vite.config.ts
     └── vercel.json
 ```
 
-- **Frontend:** React 19, TypeScript, Vite, Vanilla CSS design system.
-- **Backend:** Python 3.14+, FastAPI, Pydantic v2, Pydantic-Settings, Uvicorn.
+- **Frontend:** React 19, TypeScript, Vite, Vanilla CSS design system, Recharts.
+- **Backend:** Python 3.11+, FastAPI, Pydantic v2, Pydantic-Settings, Uvicorn.
 - **AI Engine:** Google Gemini via official `google-genai` SDK.
 
 ---

@@ -64,7 +64,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
       </div>
 
       {/* Main Analytics Grid Row 2: Bed Occupancy Stacked Bar + Waiting Time Bar */}
-      <div className="analytics-grid-two-col mt-6">
+      <div className="analytics-grid-two-col">
         <div className="col-half">
           <BedOccupancyChart data={dashboardData.bedBreakdown} />
         </div>
@@ -74,27 +74,23 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
       </div>
 
       {/* Section 3: AI Operational Insights Dedicated Panel */}
-      <div className="mt-6">
-        <AiInsightsPanel
-          bottlenecks={metrics.active_bottlenecks}
-          insights={insights}
-          isLoading={isLoadingAi}
-          onRequestInsights={onRequestInsights}
-          onNavigateToTab={onNavigateToTab}
-        />
-      </div>
+      <AiInsightsPanel
+        bottlenecks={metrics.active_bottlenecks}
+        insights={insights}
+        isLoading={isLoadingAi}
+        onRequestInsights={onRequestInsights}
+        onNavigateToTab={onNavigateToTab}
+      />
 
       {/* Section 4: Operational Alerts Console */}
-      <div className="mt-6">
-        <AlertsSection
-          alerts={dashboardData.alerts}
-          onTriggerAi={onRequestInsights}
-          onNavigateToTab={onNavigateToTab}
-        />
-      </div>
+      <AlertsSection
+        alerts={dashboardData.alerts}
+        onTriggerAi={onRequestInsights}
+        onNavigateToTab={onNavigateToTab}
+      />
 
       {/* Section 5: Real-time Inpatient Census Summary Table */}
-      <div className="section-card mt-6">
+      <div className="section-card">
         <div className="section-card-header">
           <div>
             <h3>Departmental Bed Census &amp; Operational Turnover</h3>
