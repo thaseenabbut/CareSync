@@ -1735,3 +1735,135 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Settings Modal & Pill Accents */
+.dot-amber {
+  background: var(--color-warning);
+  box-shadow: 0 0 6px rgba(251, 191, 36, 0.6);
+}
+
+.settings-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  padding: 0.45rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  margin-right: 0.4rem;
+  transition: all 0.15s ease;
+}
+
+.settings-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--color-border-hover);
+}
+
+.settings-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.settings-modal {
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.modal-header h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: #ffffff;
+}
+
+.modal-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.modal-desc {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  line-height: 1.45;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.input-group label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.ops-input {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  color: #ffffff;
+  padding: 0.65rem 0.85rem;
+  border-radius: 6px;
+  font-size: 0.825rem;
+  outline: none;
+}
+
+.ops-input:focus {
+  border-color: #3b82f6;
+}
+
+.input-help {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+}
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--color-border);
+  background: rgba(0, 0, 0, 0.15);
+}
+
