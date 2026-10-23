@@ -47,7 +47,7 @@
    ------------------------------------------------------------ */
 .dashboard-sidebar {
   width: 260px;
-  background-color: #0d1527;
+  background-color: #111113;
   border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
@@ -202,7 +202,7 @@
 .sidebar-footer {
   padding: 16px;
   border-top: 1px solid var(--border-color);
-  background: rgba(11, 18, 32, 0.6);
+  background: rgba(8, 8, 8, 0.6);
 }
 
 .system-status-card {
@@ -264,7 +264,7 @@
 .command-top-nav {
   min-height: 70px;
   height: auto;
-  background-color: rgba(15, 23, 42, 0.95);
+  background-color: rgba(8, 8, 8, 0.95);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-color);
   display: flex;
@@ -438,7 +438,7 @@
   top: 48px;
   right: 0;
   width: 340px;
-  background: #111A2C;
+  background: #0D0D0F;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
@@ -877,7 +877,7 @@
 /* Toggle Buttons */
 .toggle-group {
   display: flex;
-  background: #0B1220;
+  background: #080808;
   padding: 3px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-color);
@@ -916,7 +916,7 @@
 
 /* Tooltip Custom */
 .chart-tooltip {
-  background: #111A2C;
+  background: #0D0D0F;
   border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
   padding: 12px 14px;
@@ -1028,7 +1028,7 @@
   gap: 5px;
   font-size: 0.72rem;
   padding: 3px 8px;
-  background: #0B1220;
+  background: #080808;
   border-radius: 4px;
   border: 1px solid var(--border-color);
 }
@@ -1199,7 +1199,7 @@
 }
 
 .ai-scope-select {
-  background: #0B1220;
+  background: #080808;
   border: 1px solid var(--border-color);
   color: var(--text-main);
   padding: 8px 12px;
@@ -1238,7 +1238,7 @@
 }
 
 .ai-loading-card {
-  background: #101827;
+  background: #161618;
   border: 1px solid rgba(56, 189, 248, 0.3);
   border-radius: var(--radius-md);
   padding: 20px;
@@ -1259,7 +1259,7 @@
 }
 
 .ai-executive-summary-card {
-  background: linear-gradient(180deg, #131E33 0%, #0F172A 100%);
+  background: linear-gradient(180deg, #1A1A1C 0%, #111113 100%);
   border: 1px solid rgba(56, 189, 248, 0.35);
   border-radius: var(--radius-lg);
   padding: 18px 22px;
@@ -1312,7 +1312,7 @@
 }
 
 .gemini-detail-card {
-  background: #111A2C;
+  background: #0D0D0F;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   padding: 18px;
@@ -1338,7 +1338,7 @@
 }
 
 .gemini-observed-box {
-  background: #0B1220;
+  background: #080808;
   border: 1px solid var(--border-color);
   padding: 8px 12px;
   border-radius: var(--radius-sm);
@@ -1383,7 +1383,7 @@
 }
 
 .action-pill-card {
-  background: #0B1220;
+  background: #080808;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-sm);
   padding: 8px 12px;
@@ -1429,7 +1429,7 @@
 }
 
 .insight-card {
-  background: #111A2C;
+  background: #0D0D0F;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   padding: 18px 20px;
@@ -1511,7 +1511,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  background: #0B1220;
+  background: #080808;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-sm);
   padding: 8px 12px;
@@ -1590,7 +1590,7 @@
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  background: rgba(11, 18, 32, 0.8);
+  background: rgba(8, 8, 8, 0.8);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   padding: 14px 18px;
@@ -1691,7 +1691,7 @@
 }
 
 .alert-summary-tile {
-  background: #111A2C;
+  background: #0D0D0F;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   padding: 16px;
@@ -1761,7 +1761,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  background: #0B1220;
+  background: #080808;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   padding: 10px 16px;
@@ -1832,7 +1832,7 @@
 }
 
 .alert-entry-card {
-  background: #111A2C;
+  background: #0D0D0F;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   padding: 16px;
@@ -1935,7 +1935,7 @@
   align-items: center;
   gap: 6px;
   font-size: 0.74rem;
-  background: #0B1220;
+  background: #080808;
   padding: 4px 10px;
   border-radius: 4px;
   border: 1px solid var(--border-color);
@@ -1988,7 +1988,7 @@
   padding: 40px;
   text-align: center;
   color: var(--text-muted);
-  background: #111A2C;
+  background: #0D0D0F;
   border-radius: var(--radius-md);
 }
 
@@ -2060,7 +2060,7 @@
 .progress-bar-bg {
   flex: 1;
   height: 6px;
-  background: #0B1220;
+  background: #080808;
   border-radius: 9999px;
   overflow: hidden;
   min-width: 90px;
@@ -2172,7 +2172,7 @@
 
 .meter-track {
   height: 6px;
-  background: #0B1220;
+  background: #080808;
   border-radius: 9999px;
   overflow: hidden;
 }
@@ -2187,7 +2187,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
-  background: #0B1220;
+  background: #080808;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-sm);
   padding: 10px 8px;
@@ -2272,7 +2272,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #0B1220;
+  background: #080808;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-sm);
   padding: 10px 14px;
@@ -2343,7 +2343,7 @@
 }
 
 .diag-card {
-  background: #111A2C;
+  background: #0D0D0F;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   padding: 16px;
@@ -2599,7 +2599,7 @@
   width: 100%;
   accent-color: var(--accent-cyan);
   height: 6px;
-  background: #0B1220;
+  background: #080808;
   border-radius: 9999px;
   outline: none;
 }
@@ -2706,7 +2706,7 @@
 .resolved-chip {
   font-size: 0.72rem;
   font-family: var(--font-mono);
-  background: #0B1220;
+  background: #080808;
   padding: 3px 8px;
   border-radius: 4px;
   color: var(--status-success);
@@ -2738,7 +2738,7 @@
 }
 
 .sim-dept-item {
-  background: #111A2C;
+  background: #0D0D0F;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-sm);
   padding: 10px;
@@ -2758,7 +2758,7 @@
 .settings-modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(11, 18, 32, 0.8);
+  background: rgba(8, 8, 8, 0.8);
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
@@ -2768,7 +2768,7 @@
 }
 
 .settings-modal-card {
-  background: #151F32;
+  background: #111113;
   border: 1px solid var(--border-light);
   border-radius: var(--radius-xl);
   max-width: 540px;
@@ -2818,7 +2818,7 @@
 }
 
 .system-health-banner {
-  background: #0B1220;
+  background: #080808;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   padding: 12px 16px;
@@ -2875,7 +2875,7 @@
 }
 
 .ops-input-field {
-  background: #0B1220;
+  background: #080808;
   border: 1px solid var(--border-color);
   color: var(--text-main);
   padding: 10px 14px;
@@ -2910,7 +2910,7 @@
   justify-content: space-between;
   padding: 16px 24px;
   border-top: 1px solid var(--border-color);
-  background: rgba(11, 18, 32, 0.5);
+  background: rgba(8, 8, 8, 0.5);
 }
 
 .footer-actions-right {
@@ -2929,7 +2929,7 @@
   justify-content: space-between;
   font-size: 0.74rem;
   color: var(--text-muted);
-  background: rgba(11, 18, 32, 0.6);
+  background: rgba(8, 8, 8, 0.6);
 }
 
 .footer-left {
@@ -2990,7 +2990,7 @@
 .hold-reason-tag {
   font-size: 0.74rem;
   color: var(--text-main);
-  background: #0B1220;
+  background: #080808;
   padding: 2px 8px;
   border-radius: 4px;
   border: 1px solid var(--border-color);
@@ -3031,7 +3031,7 @@
   .sidebar-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(11, 18, 32, 0.75);
+    background: rgba(8, 8, 8, 0.75);
     backdrop-filter: blur(4px);
     z-index: 45;
   }

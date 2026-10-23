@@ -4,11 +4,11 @@
 
 :root {
   /* Core Palette 2 Tokens */
-  --bg-main: #0B1220;
-  --bg-card: #151F32;
-  --bg-card-hover: #1A2740;
-  --bg-card-subtle: #101827;
-  --bg-header: #0F172A;
+  --bg-main: #080808;
+  --bg-card: #111113;
+  --bg-card-hover: #1A1A1C;
+  --bg-card-subtle: #161618;
+  --bg-header: #0A0A0B;
 
   /* Interactive / Primary Accent: Cyan */
   --accent-cyan: #38BDF8;
@@ -125,7 +125,7 @@ a:hover {
 
 code {
   font-family: var(--font-mono);
-  background: rgba(38, 52, 73, 0.6);
+  background: rgba(255, 255, 255, 0.08);
   color: var(--accent-cyan);
   padding: 0.15em 0.4em;
   border-radius: 4px;
