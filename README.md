@@ -8,6 +8,7 @@
 > [!IMPORTANT]
 > **Safety & Regulatory Disclaimer:**  
 > CareSync is an **administrative and operational decision-support prototype** using synthetic, simulated hospital data. It is **not** a clinical diagnosis, medical triage, or patient treatment system. AI-generated recommendations are logistical suggestions for hospital staff review and have not been clinically validated.
+> *Note: This project was made for a hackathon event.*
 
 ---
 
